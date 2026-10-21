@@ -2,6 +2,8 @@
 
 **Shahzeen Ijaz Ahmad, Hasan Fehmi Ates**
 
+**WACV 2027**
+
 [Project page](#) (coming soon) · [Dataset](#) (coming soon) · [Checkpoints](#) (coming soon)
 
 This repository contains the reconstruction pipeline used to build the SPECTRA
@@ -135,10 +137,11 @@ and semantic masking) follows the post-processing recipe of MegaDepth.
 If you use this code or the SPECTRA dataset, please cite:
 
 ```bibtex
-@misc{ahmad2026spectra,
-  title  = {{SPECTRA}: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes},
-  author = {Ahmad, Shahzeen Ijaz and Ates, Hasan Fehmi},
-  year   = {2026}
+@inproceedings{ahmad2027spectra,
+  title     = {{SPECTRA}: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes},
+  author    = {Ahmad, Shahzeen Ijaz and Ates, Hasan Fehmi},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year      = {2027}
 }
 ```
 
