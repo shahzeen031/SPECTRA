@@ -1,0 +1,14 @@
+# pipeline outputs
+output/
+
+# downloaded models (vocab trees, ONNX)
+models/*
+!models/.gitkeep
+
+# your images: only the example intrinsics file is tracked
+data/*
+!data/intrinsics.txt
+
+__pycache__/
+*.pyc
+.venv/

@@ -1,0 +1,3 @@
+# RGB camera intrinsics in pixels, at the resolution of the images in rgb/
+# fx fy cx cy
+1000.0 1000.0 640.0 360.0
