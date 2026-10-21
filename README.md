@@ -1,6 +1,16 @@
-# SPECTRA: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes
-
-**Project page:** coming soon · **Dataset download:** coming soon · **Checkpoints:** coming soon
+<p align="center">
+  <h1 align="center"><ins>SPECTRA</ins>:<br> Cross-Modality Multi-View Image Matching Dataset<br> in Low-Parallax Driving Scenes<br> ⭐WACV 2027⭐</h1>
+  <p align="center">
+    Shahzeen Ijaz Ahmad
+    ·
+    Hasan Fehmi Ates
+  </p>
+  <h2 align="center"><p>
+    Paper | Project Page | Dataset | Checkpoints
+  </p></h2>
+  <p align="center"><em>Links coming soon</em></p>
+</p>
+<br/>
 
 This repository contains the reconstruction pipeline used to build the SPECTRA
 dataset. It turns image sequences from an RGB camera plus a pixel-aligned second
