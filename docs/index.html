@@ -106,7 +106,8 @@
   .step p { font-size: 15px; color: var(--muted); margin: 0; line-height: 1.55; }
 
   /* results */
-  .gallery { display: grid; gap: 22px; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .gallery a { display: block; }
   .gallery figure { margin: 0; }
   .gallery figcaption { color: var(--muted); font-size: 15px; text-align: center; margin-top: 8px; }
   .gallery img { border-radius: 6px; }
@@ -116,6 +117,14 @@
   th { font-weight: 600; }
   .tablewrap { overflow-x: auto; }
   .gain { font-weight: 600; color: var(--accent); }
+  .auc td.cat { font-weight: 600; color: var(--muted); vertical-align: middle; text-align: left; }
+  .auc tr.ft td { background: var(--bg-soft); }
+  .auc tr.ft td.cat { background: transparent; }
+  .auc tbody + tbody tr:first-child td { border-top: 2px solid var(--line); }
+  .auc .best { font-weight: 700; }
+  .auc .second { text-decoration: underline; text-underline-offset: 3px; }
+  .auc sub { font-size: 0.72em; }
+  h3.sub { font-size: 19px; margin: 30px 0 10px; text-align: center; }
 
   /* bibtex */
   pre {
@@ -133,6 +142,7 @@
     .teaser .colhead { font-size: 12px; }
     .teaser .rowhead { font-size: 11px; }
     .abstract { text-align: left; }
+    .gallery { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -263,6 +273,40 @@
   <!-- ================= results ================= -->
   <section class="wrap">
     <h2>Results</h2>
+
+    <h3 class="sub">In-domain: RASMD RGB → SWIR</h3>
+    <div class="tablewrap">
+      <table class="auc">
+        <thead>
+          <tr><th>Category</th><th>Method</th><th>AUC@5</th><th>AUC@10</th><th>AUC@20</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="cat" rowspan="3">Sparse</td><td>MINIMA-LightGlue</td><td>35.8</td><td>47.1</td><td>57.2</td></tr>
+          <tr><td>LoMa</td><td class="second">55.9</td><td class="second">62.5</td><td class="second">68.1</td></tr>
+          <tr class="ft"><td>SPECTRA<sub>LoMa</sub></td><td class="best">61.0</td><td class="best">66.6</td><td class="best">70.9</td></tr>
+        </tbody>
+        <tbody>
+          <tr><td class="cat" rowspan="5">Semi-dense</td><td>MINIMA-ELoFTR</td><td>23.7</td><td>29.8</td><td>36.8</td></tr>
+          <tr><td>XoFTR</td><td class="second">46.6</td><td class="second">55.5</td><td class="second">62.6</td></tr>
+          <tr><td>ELoFTR</td><td>41.2</td><td>49.5</td><td>57.4</td></tr>
+          <tr><td>MASt3R (base)</td><td>18.2</td><td>23.2</td><td>27.7</td></tr>
+          <tr class="ft"><td>SPECTRA<sub>MASt3R</sub></td><td class="best">60.5</td><td class="best">65.9</td><td class="best">69.8</td></tr>
+        </tbody>
+        <tbody>
+          <tr><td class="cat" rowspan="6">Dense</td><td>GIM-RoMa</td><td>60.4</td><td>68.0</td><td>74.2</td></tr>
+          <tr><td>GIM-DKM</td><td>56.3</td><td>63.8</td><td>69.9</td></tr>
+          <tr><td>RoMa</td><td>62.4</td><td>69.5</td><td>75.3</td></tr>
+          <tr><td>MINIMA-RoMa</td><td>59.3</td><td>67.1</td><td>73.2</td></tr>
+          <tr class="ft"><td>SPECTRA<sub>RoMa</sub></td><td class="second">68.1</td><td class="second">72.3</td><td class="second">76.7</td></tr>
+          <tr class="ft"><td>SPECTRA<sub>MINIMA-RoMa</sub></td><td class="best">68.6</td><td class="best">73.5</td><td class="best">77.8</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">Pose AUC at 5/10/20 on 1,500 weather-balanced RASMD RGB → SWIR pairs.
+      Best and second best in each category are <strong>bold</strong> and <u>underlined</u>;
+      shaded rows are models fine-tuned on SPECTRA.</p>
+
+    <h3 class="sub">Unseen modality: RGB → thermal</h3>
     <p>SPECTRA is RGB-SWIR, but we evaluate on RGB-thermal: the fine-tuned models never see a thermal
       image during training. On DSERT, fine-tuning on SPECTRA improves every model on its own baseline in
       every weather condition, and the margin widens as conditions get worse.</p>
@@ -287,21 +331,21 @@
 
     <div class="gallery" style="margin-top:26px">
       <figure>
-        <img src="static/images/match_light_rain.jpg" alt="RGB to thermal matches under light rain" loading="lazy">
+        <a href="static/images/match_light_rain.jpg"><img src="static/images/match_light_rain.jpg" alt="RGB to thermal matches under light rain" loading="lazy"></a>
         <figcaption>Light rain</figcaption>
       </figure>
       <figure>
-        <img src="static/images/match_heavy_rain.jpg" alt="RGB to thermal matches under heavy rain" loading="lazy">
+        <a href="static/images/match_heavy_rain.jpg"><img src="static/images/match_heavy_rain.jpg" alt="RGB to thermal matches under heavy rain" loading="lazy"></a>
         <figcaption>Heavy rain</figcaption>
       </figure>
       <figure>
-        <img src="static/images/match_light_snow.jpg" alt="RGB to thermal matches under light snow" loading="lazy">
+        <a href="static/images/match_light_snow.jpg"><img src="static/images/match_light_snow.jpg" alt="RGB to thermal matches under light snow" loading="lazy"></a>
         <figcaption>Light snow</figcaption>
       </figure>
     </div>
     <p class="caption">RoMa fine-tuned on SPECTRA, matching RGB (left) to thermal (right) on DSERT.
       Dots are correct correspondences under the ground-truth epipolar check, coloured by their position
-      in the RGB image.</p>
+      in the RGB image. Click an image to enlarge.</p>
   </section>
 
   <!-- ================= acknowledgements ================= -->
