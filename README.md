@@ -6,9 +6,9 @@
     Hasan Fehmi Ates
   </p>
   <h2 align="center"><p>
-    Paper | Project Page | Dataset | Checkpoints
+    Paper | <a href="https://shahzeen031.github.io/SPECTRA/" align="center">Project Page</a> | Dataset | Checkpoints
   </p></h2>
-  <p align="center"><em>Links coming soon</em></p>
+  <p align="center"><em>Paper, dataset and checkpoint links coming soon</em></p>
 </p>
 <br/>
 
