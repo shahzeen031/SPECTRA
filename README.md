@@ -1,5 +1,7 @@
 # SPECTRA: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes
 
+**Project page:** coming soon · **Dataset download:** coming soon · **Checkpoints:** coming soon
+
 This repository contains the reconstruction pipeline used to build the SPECTRA
 dataset. It turns image sequences from an RGB camera plus a pixel-aligned second
 modality (X: thermal, SWIR, NIR, ...) into camera poses, depth maps and verified
