@@ -1,11 +1,5 @@
 # SPECTRA: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes
 
-**Shahzeen Ijaz Ahmad, Hasan Fehmi Ates**
-
-**WACV 2027**
-
-[Project page](#) (coming soon) · [Dataset](#) (coming soon) · [Checkpoints](#) (coming soon)
-
 This repository contains the reconstruction pipeline used to build the SPECTRA
 dataset. It turns image sequences from an RGB camera plus a pixel-aligned second
 modality (X: thermal, SWIR, NIR, ...) into camera poses, depth maps and verified
@@ -131,27 +125,3 @@ output/
 
 The depth refinement (geometric/photometric depth fusion, stability filtering
 and semantic masking) follows the post-processing recipe of MegaDepth.
-
-## Citation
-
-If you use this code or the SPECTRA dataset, please cite:
-
-```bibtex
-@inproceedings{ahmad2027spectra,
-  title     = {{SPECTRA}: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes},
-  author    = {Ahmad, Shahzeen Ijaz and Ates, Hasan Fehmi},
-  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
-  year      = {2027}
-}
-```
-
-Please also cite MegaDepth:
-
-```bibtex
-@inproceedings{MegaDepthLi18,
-  title     = {MegaDepth: Learning Single-View Depth Prediction from Internet Photos},
-  author    = {Li, Zhengqi and Snavely, Noah},
-  booktitle = {Computer Vision and Pattern Recognition (CVPR)},
-  year      = {2018}
-}
-```
