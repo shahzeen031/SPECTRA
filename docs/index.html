@@ -63,6 +63,8 @@
   .venue { display: inline-block; font-weight: 600; font-size: 17px; padding: 4px 14px; border: 1px solid var(--line); border-radius: 999px; margin-bottom: 22px; }
   .authors { font-size: 19px; margin: 0 0 4px; }
   .authors span + span::before { content: "·"; margin: 0 12px; color: var(--muted); }
+  .affil { color: var(--muted); font-size: 16px; margin: 0; }
+  .affil a { color: inherit; }
   .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
   .btn {
     display: inline-flex; align-items: center; gap: 8px; padding: 9px 20px; border-radius: 999px;
@@ -80,10 +82,10 @@
   .caption { color: var(--muted); font-size: 15px; text-align: center; margin-top: 12px; }
 
   /* teaser grid: rows = weather, cols = RGB | SWIR | depth */
-  .teaser { display: grid; grid-template-columns: 64px repeat(3, 1fr); gap: 6px; align-items: center; }
+  .teaser { max-width: 780px; margin: 0 auto; display: grid; grid-template-columns: 64px repeat(3, 1fr); gap: 6px; align-items: center; }
   .teaser .colhead { font-weight: 600; font-size: 14px; text-align: center; color: var(--muted); padding-bottom: 2px; }
   .teaser .rowhead { font-weight: 600; font-size: 13px; color: var(--muted); writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; justify-self: center; }
-  .teaser img { border-radius: 4px; width: 100%; aspect-ratio: 640 / 365; object-fit: cover; }
+  .teaser img { border-radius: 3px; width: 100%; aspect-ratio: 640 / 365; object-fit: cover; }
 
   /* stats */
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 8px; }
@@ -141,6 +143,7 @@
   <p class="subtitle">Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes</p>
   <div class="venue">⭐ WACV 2027 ⭐</div>
   <p class="authors"><span>Shahzeen Ijaz Ahmad</span><span>Hasan Fehmi Ates</span></p>
+  <p class="affil"><a href="https://labs.ozyegin.edu.tr/deep-vip/">Deep-VIP Lab</a>, Özyeğin University</p>
 
   <div class="buttons">
     <span class="btn off" title="Coming soon">
@@ -191,8 +194,9 @@
       <img src="static/images/snowy_swir.jpg" alt="Snowy scene, SWIR" loading="lazy">
       <img src="static/images/snowy_depth.jpg" alt="Snowy scene, depth" loading="lazy">
     </div>
-    <p class="caption">Samples from SPECTRA. Each RGB frame has a pixel-aligned SWIR frame and a
-      depth map from our reconstruction pipeline (near = red, far = blue; dark = no depth, e.g. sky).
+    <p class="caption">Samples from SPECTRA. The RGB and SWIR images are from the
+      <a href="https://yonsei-stl.github.io/RASMD/">RASMD dataset</a>; the depth maps are produced by our
+      reconstruction pipeline (near = red, far = blue; dark = no depth, e.g. sky).
       SWIR is shown with a contrast stretch for display.</p>
   </section>
 
@@ -294,14 +298,21 @@
         <img src="static/images/match_light_snow.jpg" alt="RGB to thermal matches under light snow" loading="lazy">
         <figcaption>Light snow</figcaption>
       </figure>
-      <figure>
-        <img src="static/images/match_heavy_snow.jpg" alt="RGB to thermal matches under heavy snow" loading="lazy">
-        <figcaption>Heavy snow</figcaption>
-      </figure>
     </div>
     <p class="caption">RoMa fine-tuned on SPECTRA, matching RGB (left) to thermal (right) on DSERT.
       Dots are correct correspondences under the ground-truth epipolar check, coloured by their position
       in the RGB image.</p>
+  </section>
+
+  <!-- ================= acknowledgements ================= -->
+  <section class="wrap narrow">
+    <h2>Acknowledgements</h2>
+    <p>The RGB and SWIR imagery in SPECTRA comes from the RASMD dataset. We thank its authors for
+      making it available: Y. Jin, M. Kovac, Y. Nalcakan, H. Ju, H. Song, S. Yeo and S. Kim,
+      <a href="https://arxiv.org/abs/2504.07603"><em>RASMD: RGB And SWIR Multispectral Driving Dataset for
+      Robust Perception in Adverse Conditions</em></a>, 2025
+      (<a href="https://yonsei-stl.github.io/RASMD/">project page</a>).</p>
+    <p>This work is supported in part by TÜBİTAK Grant - Project No: 125E200.</p>
   </section>
 
   <!-- ================= bibtex ================= -->
@@ -318,7 +329,7 @@
 </main>
 
 <footer class="wrap">
-  SPECTRA · WACV 2027
+  SPECTRA · WACV 2027 · <a href="https://labs.ozyegin.edu.tr/deep-vip/">Deep-VIP Lab</a>
 </footer>
 
 <script>
