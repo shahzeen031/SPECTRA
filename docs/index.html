@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPECTRA</title>
+<meta name="description" content="SPECTRA: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes (WACV 2027).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f5f6f8;
+    --text: #1c1f24;
+    --muted: #5b6270;
+    --line: #e3e6eb;
+    --accent: #2f6fde;
+    --btn: #1c1f24;
+    --btn-text: #ffffff;
+    --btn-off: #c9ced6;
+    --code-bg: #f5f6f8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1115;
+      --bg-soft: #171a20;
+      --text: #e7e9ee;
+      --muted: #9aa2b1;
+      --line: #262a33;
+      --accent: #6ea0ff;
+      --btn: #e7e9ee;
+      --btn-text: #0f1115;
+      --btn-off: #3a3f4a;
+      --code-bg: #171a20;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1115; --bg-soft: #171a20; --text: #e7e9ee; --muted: #9aa2b1;
+    --line: #262a33; --accent: #6ea0ff; --btn: #e7e9ee; --btn-text: #0f1115;
+    --btn-off: #3a3f4a; --code-bg: #171a20;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px; line-height: 1.65;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--accent); }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .narrow { max-width: 800px; }
+
+  /* ---------- header ---------- */
+  header { text-align: center; padding: 64px 0 28px; }
+  h1 {
+    font-size: clamp(30px, 5vw, 46px); line-height: 1.18; margin: 0 0 6px;
+    font-weight: 700; letter-spacing: -0.02em;
+  }
+  h1 .name { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 3px; }
+  .subtitle { font-size: clamp(19px, 2.6vw, 25px); font-weight: 500; margin: 0 auto 18px; max-width: 760px; line-height: 1.35; }
+  .venue { display: inline-block; font-weight: 600; font-size: 17px; padding: 4px 14px; border: 1px solid var(--line); border-radius: 999px; margin-bottom: 22px; }
+  .authors { font-size: 19px; margin: 0 0 4px; }
+  .authors span + span::before { content: "·"; margin: 0 12px; color: var(--muted); }
+  .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 20px; border-radius: 999px;
+    background: var(--btn); color: var(--btn-text); text-decoration: none; font-weight: 600; font-size: 15px;
+  }
+  .btn svg { width: 17px; height: 17px; fill: currentColor; }
+  .btn.off { background: var(--btn-off); color: var(--btn-text); cursor: default; }
+  .btn .soon { font-weight: 400; font-size: 12px; opacity: 0.85; }
+
+  /* ---------- sections ---------- */
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: 26px; text-align: center; margin: 0 0 22px; letter-spacing: -0.01em; }
+  p { margin: 0 0 14px; }
+  .abstract { text-align: justify; hyphens: auto; }
+  .caption { color: var(--muted); font-size: 15px; text-align: center; margin-top: 12px; }
+
+  /* teaser grid: rows = weather, cols = RGB | SWIR | depth */
+  .teaser { display: grid; grid-template-columns: 64px repeat(3, 1fr); gap: 6px; align-items: center; }
+  .teaser .colhead { font-weight: 600; font-size: 14px; text-align: center; color: var(--muted); padding-bottom: 2px; }
+  .teaser .rowhead { font-weight: 600; font-size: 13px; color: var(--muted); writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; justify-self: center; }
+  .teaser img { border-radius: 4px; width: 100%; aspect-ratio: 640 / 365; object-fit: cover; }
+
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 8px; }
+  .stat { background: var(--bg-soft); border-radius: 10px; padding: 18px; text-align: center; }
+  .stat .num { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+  .stat .lbl { color: var(--muted); font-size: 14px; line-height: 1.4; }
+
+  /* pipeline */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; counter-reset: step; }
+  .step { border: 1px solid var(--line); border-radius: 10px; padding: 18px; position: relative; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%; background: var(--btn); color: var(--btn-text);
+    font-weight: 700; font-size: 14px; margin-bottom: 10px;
+  }
+  .step h3 { font-size: 17px; margin: 0 0 6px; }
+  .step p { font-size: 15px; color: var(--muted); margin: 0; line-height: 1.55; }
+
+  /* results */
+  .gallery { display: grid; gap: 22px; }
+  .gallery figure { margin: 0; }
+  .gallery figcaption { color: var(--muted); font-size: 15px; text-align: center; margin-top: 8px; }
+  .gallery img { border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 6px 0 4px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: center; }
+  th:first-child, td:first-child { text-align: left; }
+  th { font-weight: 600; }
+  .tablewrap { overflow-x: auto; }
+  .gain { font-weight: 600; color: var(--accent); }
+
+  /* bibtex */
+  pre {
+    background: var(--code-bg); border-radius: 8px; padding: 16px; overflow-x: auto;
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 13.5px; line-height: 1.55; margin: 0;
+  }
+  .copy { float: right; font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--bg); color: var(--text); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; text-align: center; color: var(--muted); font-size: 14px; }
+
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    header { padding-top: 40px; }
+    .teaser { grid-template-columns: 22px repeat(3, 1fr); gap: 3px; }
+    .teaser .colhead { font-size: 12px; }
+    .teaser .rowhead { font-size: 11px; }
+    .abstract { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <h1><span class="name">SPECTRA</span></h1>
+  <p class="subtitle">Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes</p>
+  <div class="venue">⭐ WACV 2027 ⭐</div>
+  <p class="authors"><span>Shahzeen Ijaz Ahmad</span><span>Hasan Fehmi Ates</span></p>
+
+  <div class="buttons">
+    <span class="btn off" title="Coming soon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6V2zm8 1.5V8h4.5L14 3.5zM8 12h10v1.5H8V12zm0 3h10v1.5H8V15zm0 3h7v1.5H8V18z"/></svg>
+      Paper <span class="soon">coming soon</span>
+    </span>
+    <a class="btn" href="https://github.com/shahzeen031/SPECTRA">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+      Code
+    </a>
+    <span class="btn off" title="Coming soon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C7 2 3 3.8 3 6v12c0 2.2 4 4 9 4s9-1.8 9-4V6c0-2.2-4-4-9-4zm0 2c4.4 0 7 1.4 7 2s-2.6 2-7 2-7-1.4-7-2 2.6-2 7-2zM5 8.7C6.7 9.5 9.2 10 12 10s5.3-.5 7-1.3V12c0 .6-2.6 2-7 2s-7-1.4-7-2V8.7zm0 6c1.7.8 4.2 1.3 7 1.3s5.3-.5 7-1.3V18c0 .6-2.6 2-7 2s-7-1.4-7-2v-3.3z"/></svg>
+      Dataset <span class="soon">coming soon</span>
+    </span>
+    <span class="btn off" title="Coming soon">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3 1.4 1.4L12 17.4l-5.7-5.7 1.4-1.4 3.3 3.3V4a1 1 0 0 1 1-1zM4 19h16v2H4v-2z"/></svg>
+      Checkpoints <span class="soon">coming soon</span>
+    </span>
+  </div>
+</header>
+
+<main>
+  <!-- ================= teaser ================= -->
+  <section class="wrap" aria-label="Dataset samples">
+    <div class="teaser">
+      <div></div>
+      <div class="colhead">RGB</div>
+      <div class="colhead">SWIR</div>
+      <div class="colhead">Depth</div>
+
+      <div class="rowhead">Sunny</div>
+      <img src="static/images/sunny_rgb.jpg" alt="Sunny scene, RGB" loading="lazy">
+      <img src="static/images/sunny_swir.jpg" alt="Sunny scene, SWIR" loading="lazy">
+      <img src="static/images/sunny_depth.jpg" alt="Sunny scene, depth" loading="lazy">
+
+      <div class="rowhead">Cloudy</div>
+      <img src="static/images/cloudy_rgb.jpg" alt="Cloudy scene, RGB" loading="lazy">
+      <img src="static/images/cloudy_swir.jpg" alt="Cloudy scene, SWIR" loading="lazy">
+      <img src="static/images/cloudy_depth.jpg" alt="Cloudy scene, depth" loading="lazy">
+
+      <div class="rowhead">Rainy</div>
+      <img src="static/images/rainy_rgb.jpg" alt="Rainy scene, RGB" loading="lazy">
+      <img src="static/images/rainy_swir.jpg" alt="Rainy scene, SWIR" loading="lazy">
+      <img src="static/images/rainy_depth.jpg" alt="Rainy scene, depth" loading="lazy">
+
+      <div class="rowhead">Snowy</div>
+      <img src="static/images/snowy_rgb.jpg" alt="Snowy scene, RGB" loading="lazy">
+      <img src="static/images/snowy_swir.jpg" alt="Snowy scene, SWIR" loading="lazy">
+      <img src="static/images/snowy_depth.jpg" alt="Snowy scene, depth" loading="lazy">
+    </div>
+    <p class="caption">Samples from SPECTRA. Each RGB frame has a pixel-aligned SWIR frame and a
+      depth map from our reconstruction pipeline (near = red, far = blue; dark = no depth, e.g. sky).
+      SWIR is shown with a contrast stretch for display.</p>
+  </section>
+
+  <!-- ================= abstract ================= -->
+  <section class="wrap narrow">
+    <h2>Abstract</h2>
+    <p class="abstract">In this study we present, to the best of our knowledge, the first real-sensor
+      RGB-X multi-view, multi-modality image matching dataset for driving scenes. Matching images across
+      sensor modalities is a prerequisite for perception systems that pair an RGB camera with a thermal
+      or infrared one, yet it is evaluated almost entirely on wide-baseline, static, clear-weather
+      benchmarks. Driving violates all three assumptions, and method rankings obtained under clear
+      conditions reverse under rain and snow. Existing resources do not close this gap: pre-aligned
+      collections offer no viewpoint change, synthetic cross-modality data inherits landmark viewpoints,
+      and driving multi-sensor datasets release inertial poses rather than matching supervision. Nor can
+      such supervision simply be reconstructed: Structure-from-Motion followed by multi-view stereo
+      becomes ill-conditioned under near-parallel forward motion, dynamic objects and low-texture
+      weather. We therefore build a reconstruction pipeline for this setting. Intrinsics are fixed from
+      the sensor specification and never bundle-adjusted, dynamic content is removed by geometric
+      consistency, and reconstruction escalates adaptively on low-texture scenes under explicit quality
+      gating, so that unreliable scenes are excluded rather than released as noisy ground truth.
+      Released poses are verified against two independent matchers (median rotation error 0.094°).
+      Applied to RGB-SWIR driving imagery, the pipeline yields SPECTRA: 384,550 verified
+      cross-modality pairs with poses and depth. Fine-tuning on SPECTRA improves every architecture
+      tested on unseen RGB-thermal data, across two platforms and two metrics, with margins that grow
+      as conditions degrade.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="num">384,550</div><div class="lbl">verified RGB-SWIR pairs<br>with poses and depth</div></div>
+      <div class="stat"><div class="num">0.094°</div><div class="lbl">median rotation error of released poses<br>against two independent matchers</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">weather conditions:<br>sunny, cloudy, rainy, snowy</div></div>
+    </div>
+  </section>
+
+  <!-- ================= pipeline ================= -->
+  <section class="wrap">
+    <h2>Reconstruction pipeline</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>Structure-from-Motion</h3>
+        <p>COLMAP on the RGB stream with intrinsics fixed from the sensor specification and never
+          bundle-adjusted. Low-texture scenes escalate to stronger features, and every scene passes
+          an explicit quality gate.</p>
+      </div>
+      <div class="step">
+        <h3>Pose densification</h3>
+        <p>Frames left out of the initial reconstruction are registered against the accepted model,
+          with existing poses and intrinsics held fixed.</p>
+      </div>
+      <div class="step">
+        <h3>Multi-view stereo</h3>
+        <p>Patch-match stereo followed by MegaDepth-style depth refinement. Dynamic objects are kept
+          only where they are geometrically consistent, and sky is removed.</p>
+      </div>
+      <div class="step">
+        <h3>Verified pairs</h3>
+        <p>Pair overlap is recomputed from the depth maps with a mutual depth-consistency check,
+          and only well-overlapping pairs are released. SWIR frames reuse the RGB pose and depth.</p>
+      </div>
+    </div>
+    <p class="caption">The full pipeline runs with one command and works for any pre-aligned RGB-X
+      sequence. See the <a href="https://github.com/shahzeen031/SPECTRA">code</a>.</p>
+  </section>
+
+  <!-- ================= results ================= -->
+  <section class="wrap">
+    <h2>Results</h2>
+    <p>SPECTRA is RGB-SWIR, but we evaluate on RGB-thermal: the fine-tuned models never see a thermal
+      image during training. On DSERT, fine-tuning on SPECTRA improves every model on its own baseline in
+      every weather condition, and the margin widens as conditions get worse.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>DSERT RGB → thermal, pose AUC@10°</th><th>Clear</th><th>Light rain</th><th>Heavy rain</th><th>Light snow</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>RoMa fine-tuned on SPECTRA vs. RoMa</td>
+            <td class="gain">+9.3</td><td class="gain">+25.2</td><td class="gain">+13.7</td><td class="gain">+19.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">Gain in points over the pretrained RoMa checkpoint.</p>
+
+    <p style="margin-top:22px">The same pattern holds under lighting changes: MASt3R improves from 23.2
+      to 52.5 AUC@10° under HDR, the largest single gain in the paper. On a second platform (ViViD,
+      LiDAR-derived correspondences), the fine-tuned MINIMA reaches the best median error on both
+      sequences (10.96 px on <code>campus_day1</code>, 12.22 px on <code>campus_evening</code>).</p>
+
+    <div class="gallery" style="margin-top:26px">
+      <figure>
+        <img src="static/images/match_light_rain.jpg" alt="RGB to thermal matches under light rain" loading="lazy">
+        <figcaption>Light rain</figcaption>
+      </figure>
+      <figure>
+        <img src="static/images/match_heavy_rain.jpg" alt="RGB to thermal matches under heavy rain" loading="lazy">
+        <figcaption>Heavy rain</figcaption>
+      </figure>
+      <figure>
+        <img src="static/images/match_light_snow.jpg" alt="RGB to thermal matches under light snow" loading="lazy">
+        <figcaption>Light snow</figcaption>
+      </figure>
+      <figure>
+        <img src="static/images/match_heavy_snow.jpg" alt="RGB to thermal matches under heavy snow" loading="lazy">
+        <figcaption>Heavy snow</figcaption>
+      </figure>
+    </div>
+    <p class="caption">RoMa fine-tuned on SPECTRA, matching RGB (left) to thermal (right) on DSERT.
+      Dots are correct correspondences under the ground-truth epipolar check, coloured by their position
+      in the RGB image.</p>
+  </section>
+
+  <!-- ================= bibtex ================= -->
+  <section class="wrap narrow">
+    <h2>BibTeX</h2>
+    <button class="copy" type="button" id="copy">Copy</button>
+<pre id="bibtex">@inproceedings{ahmad2027spectra,
+  title     = {{SPECTRA}: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes},
+  author    = {Ahmad, Shahzeen Ijaz and Ates, Hasan Fehmi},
+  booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year      = {2027}
+}</pre>
+  </section>
+</main>
+
+<footer class="wrap">
+  SPECTRA · WACV 2027
+</footer>
+
+<script>
+  document.getElementById("copy").addEventListener("click", function () {
+    var btn = this, text = document.getElementById("bibtex").textContent;
+    var done = function () { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+    }
+  });
+</script>
+</body>
+</html>
