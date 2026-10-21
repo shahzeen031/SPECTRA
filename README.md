@@ -1,9 +1,40 @@
-# RGB-X depth and pair dataset pipeline
+# SPECTRA: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes
 
-Turns image sequences from an RGB camera plus a pixel-aligned second modality
-(X: thermal, SWIR, NIR, ...) into camera poses, depth maps and verified
-RGB↔X training pairs. The pipeline computes poses and depth from the **RGB images only**.
-The X images reuse the poses and depth of their matching RGB frames.
+**Shahzeen Ijaz Ahmad, Hasan Fehmi Ates**
+
+[Project page](#) (coming soon) · [Dataset](#) (coming soon) · [Checkpoints](#) (coming soon)
+
+This repository contains the reconstruction pipeline used to build the SPECTRA
+dataset. It turns image sequences from an RGB camera plus a pixel-aligned second
+modality (X: thermal, SWIR, NIR, ...) into camera poses, depth maps and verified
+RGB↔X training pairs. Poses and depth are computed from the **RGB images only**;
+the X images reuse the poses and depth of their matching RGB frames.
+
+## Abstract
+
+In this study we present, to the best of our knowledge, the first real-sensor
+RGB-X multi-view, multi-modality image matching dataset for driving scenes.
+Matching images across sensor modalities is a prerequisite for perception
+systems that pair an RGB camera with a thermal or infrared one, yet it is
+evaluated almost entirely on wide-baseline, static, clear-weather benchmarks.
+Driving violates all three assumptions, and method rankings obtained under clear
+conditions reverse under rain and snow. Existing resources do not close this
+gap: pre-aligned collections offer no viewpoint change, synthetic
+cross-modality data inherits landmark viewpoints, and driving multi-sensor
+datasets release inertial poses rather than matching supervision. Nor can such
+supervision simply be reconstructed: Structure-from-Motion followed by
+multi-view stereo becomes ill-conditioned under near-parallel forward motion,
+dynamic objects and low-texture weather. We therefore build a reconstruction
+pipeline for this setting. Intrinsics are fixed from the sensor specification
+and never bundle-adjusted, dynamic content is removed by geometric consistency,
+and reconstruction escalates adaptively on low-texture scenes under explicit
+quality gating, so that unreliable scenes are excluded rather than released as
+noisy ground truth. Released poses are verified against two independent
+matchers (median rotation error 0.094°). Applied to RGB-SWIR driving imagery,
+the pipeline yields SPECTRA: 384,550 verified cross-modality pairs with poses
+and depth. Fine-tuning on SPECTRA improves every architecture tested on unseen
+RGB-thermal data, across two platforms and two metrics, with margins that grow
+as conditions degrade.
 
 ## 1. Environment
 
@@ -93,3 +124,31 @@ output/
   `GOOD` in `master_results.csv` and at least 100 of its pairs pass the
   depth-verified overlap check (0.30–0.92).
 - Frames that SfM could not register get no pose and no depth, and are left out.
+
+## Acknowledgements
+
+The depth refinement (geometric/photometric depth fusion, stability filtering
+and semantic masking) follows the post-processing recipe of MegaDepth.
+
+## Citation
+
+If you use this code or the SPECTRA dataset, please cite:
+
+```bibtex
+@misc{ahmad2026spectra,
+  title  = {{SPECTRA}: Cross-Modality Multi-View Image Matching Dataset in Low-Parallax Driving Scenes},
+  author = {Ahmad, Shahzeen Ijaz and Ates, Hasan Fehmi},
+  year   = {2026}
+}
+```
+
+Please also cite MegaDepth:
+
+```bibtex
+@inproceedings{MegaDepthLi18,
+  title     = {MegaDepth: Learning Single-View Depth Prediction from Internet Photos},
+  author    = {Li, Zhengqi and Snavely, Noah},
+  booktitle = {Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2018}
+}
+```
